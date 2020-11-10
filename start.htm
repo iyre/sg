@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="Miles Miller"/>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href="sg.ico"/>
+		<title>Stargate: Dialer</title>
+		<script type="text/javascript">
+			var track = 0;
+			var chevrons = 0;
+			var sequence = "";
+			var coords = new Array("027007015032012030001","020002035008026015001","018002030012026033001");
+			var planets = new Array("abydos","camelot","ktau");
+			var sndDh1 = new Audio("sounds/dhd.mp3");
+			var sndDh2 = new Audio("sounds/dhd.mp3");
+			var sndDh3 = new Audio("sounds/dhd.mp3");
+			var sndDh4 = new Audio("sounds/dhd.mp3");
+			var sndDhA = new Array(sndDh1,sndDh2,sndDh3,sndDh4);
+			var sndBad = new Audio("sounds/bad.mp3");
+			var sndCls = new Audio("sounds/cls.mp3");
+			var sndOpn = new Audio("sounds/opn.mp3");
+			var open = false;
+			function changeImage()
+			{
+				element("gate").src = "images/gate_"+chevrons+".png";
+    		}
+    		function gateClose()
+    		{
+    			sndCls.play();
+    		}
+    		function travel()
+    		{
+				if (patternCheck())
+    			{
+    				window.location = "planets/"+patternCheck()+".htm";
+    			}
+    			else
+   					window.location = "home.htm";
+    		}
+    		function element(e)
+    		{
+    			return document.getElementById(e);
+    		}
+    		function openPortal()
+    		{
+    			element("portalcls").id = "portalopn";
+    			sndOpn.play();
+    			open = true;
+    		}
+    		function buttonPress()
+    		{
+    			if (chevrons > 6)
+    			{
+    				openPortal();
+    			}
+    			else
+    				sndBad.play();
+    		}
+    		function patternCheck()
+    		{
+    			for (var i=0; i<coords.length; i++)
+    			{
+    				if (coords[i]==sequence)
+    				{
+    					return planets[i];
+    				}
+    			}
+    			element("unknown").style.opacity = "1";
+    			return false;
+    		}
+    		function displayDest()
+    		{
+    			if (patternCheck())
+    				element(patternCheck()).className = "blue";
+    		}
+    		function glyphPress(glyph)
+    		{
+    			if (chevrons < 7)
+    			{
+    				sequence+=glyph;
+    				chevrons++;
+					sndDhA[track].play();
+					if (track>2)
+						track=0;
+					else
+						track++;
+    				changeImage();
+    				selectGlyph(glyph);
+    				if (chevrons==7)
+    				{
+    					displayDest();
+    					element("dhd").src = "images/dhdrendlight.png";
+    				}
+    			}
+    			else
+    				sndBad.play();
+    		}
+    		function selectGlyph(glyph)
+    		{
+    			element(chevrons).innerHTML = '<img src="glyphs/'+glyph+'.svg" class="glyph"/>';
+    		}
+    		function reset()
+    		{
+    			chevrons=0;
+    			sequence="";
+    			changeImage();
+    			element("dhd").src="images/dhdrend.png";
+    			element("unknown").style.opacity = "0";
+    			for (var i=1;i<8;i++)
+    				element(i).innerHTML = "";
+    			if (open)
+    			{
+    				element("portalopn").id = "portalcls";
+    				open = false;
+    				sndCls.play();
+    			}
+    			for (var i=0;i<planets.length;i++)
+    				element(planets[i]).className = "black";
+    		}
+		</script>
+		<style type="text/css">	 
+			body		{font-family: monospace, consolas, Verdana;
+						font-size: 11pt;
+						background-color: black;
+						color: yellow;
+						text-align: center;} 			 
+			img			{width: 600px;
+						height: 600px;}
+			.glyph 		{width: 85px;
+						height: 85px;
+						z-index: 0;}
+			.gate 		{position: absolute;
+						top: 15px;
+						margin-left: 50%;
+						left: -300px;}
+			#dhd    	{height: 800px;
+						width: 800px;
+						position: absolute;
+						top :-85px;
+						margin-left: 50%;
+						left: -400px;
+					    z-index: 2;}
+			#portalcls	{z-index: 0;
+						opacity: 0;}
+			#portalopn	{z-index: 3;
+						opacity: 1;}
+			.black		{background-color: black;}
+			.blue		{background-color: #002933;}
+		</style>
+	</head>	 
+	<body onload="gateClose();">
+		<div>
+			<img class="gate" id="gate" src="images\gate_0.png"/ style="z-index:1;"/>
+			<img id="dhd" src="images\dhdrend.png" usemap="#console"/>
+			<img class="gate" id="portalcls" src="images\banner.png" usemap="#portal"/>
+		</div>
+		<div style="position:absolute;top:0px;">
+			<div id="1"></div>
+			<div id="2"></div>
+			<div id="3"></div>
+			<div id="4"></div>
+			<div id="5"></div>
+			<div id="6"></div>
+			<div id="7"></div>
+		</div>
+		<div id="unknown" style="position:relative;top:580px;opacity:0;">
+			<h3>
+				Unknown Destination
+			</h3>	
+		</div>
+		<div style="position:relative;top:450px;left:-250px;z-index:4;">
+			<img src="images/reset.svg" style="width:80px;height:80px;" usemap="#reset">	
+		</div>
+		<table align="center" style="position:relative;top:500px;" width="600" cellpadding="5" border="1">
+			<tr id="abydos" class="black">
+				<th width="100px" align="center" style="vertical-align:middle;">
+					ABYDOS
+				</th>
+				<td width="500px" style="vertical-align:middle;">
+					<img src="glyphs\027.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\007.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\015.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\032.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\012.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\030.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\001.svg" style="width:50px;height:50px;"/>
+				</td>
+			</tr>
+			<tr id="camelot" class="black">
+				<th width="100px" valign="TOP" align="center" style="vertical-align:middle;">
+					CAMELOT
+				</th>
+				<td width="300px" style="vertical-align:middle;">
+					<img src="glyphs\020.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\002.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\035.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\008.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\026.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\015.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\001.svg" style="width:50px;height:50px;"/>
+				</td>
+			</tr>
+			<tr id="ktau" class="black">
+				<th width="100px" valign="TOP" align="center" style="vertical-align:middle;">
+					K'TAU
+				</th>
+				<td width="500px" style="vertical-align:middle;">
+					<img src="glyphs\018.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\002.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\030.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\012.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\026.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\033.svg" style="width:50px;height:50px;"/>
+					<img src="glyphs\001.svg" style="width:50px;height:50px;"/>
+				</td>
+			</tr>
+		</table>
+		<map name="console">
+			<area shape="poly" id="001" coords="254,287,294,317,275,348,229,332," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="019" coords="297,245,323,285,296,310,259,280," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="022" coords="304,241,353,221,363,265,328,280," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="007" coords="360,219,409,216,405,260,370,264," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="024" coords="419,218,469,231,451,274,415,266," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="006" coords="477,234,455,274,488,297,520,264," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="029" coords="492,301,525,269,556,310,519,331," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="038" coords="520,336,560,317,577,365,532,374," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="034" coords="534,377,579,373,580,425,535,417," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="012" coords="533,421,577,430,560,481,519,461," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="037" coords="517,464,557,487,524,529,490,496," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="011" coords="487,500,518,536,475,563,456,518," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="021" coords="413,528,450,521,469,564,418,577," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="003" coords="370,525,407,530,411,579,357,576," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="004" coords="329,508,363,525,351,572,301,551," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="020" coords="297,479,258,510,297,545,324,506," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="009" coords="230,457,277,442,292,474,251,503," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="005" coords="218,399,267,398,273,436,226,450," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="032" coords="228,339,273,354,266,391,219,389," onclick="glyphPress(this.id)"/>
+			
+			<area shape="poly" id="015" coords="299,320,343,354,333,371,281,350," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="035" coords="303,314,329,293,359,338,346,351," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="030" coords="334,287,366,274,379,328,362,336," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="016" coords="373,273,404,271,402,325,384,328," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="028" coords="410,270,446,280,423,330,406,326," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="010" coords="451,282,481,301,444,343,426,332," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="033" coords="484,306,507,336,458,361,447,346," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="039" coords="507,339,522,372,466,383,462,365," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="026" coords="522,378,523,415,466,405,467,386," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="023" coords="466,409,521,419,509,453,461,429," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="018" coords="458,431,507,458,485,487,447,448," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="014" coords="443,450,480,492,450,511,428,459," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="017" coords="405,466,422,462,445,513,411,522," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="002" coords="383,465,402,467,404,522,367,518," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="025" coords="360,456,378,464,362,517,330,501," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="036" coords="343,441,356,454,326,498,301,475," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="008" coords="332,420,339,437,297,469,281,439," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="027" coords="272,397,328,398,331,415,276,433," onclick="glyphPress(this.id)"/>
+			<area shape="poly" id="031" coords="279,356,333,376,329,393,273,391," onclick="glyphPress(this.id)"/>
+			<area shape="circle" id="button" coords="400,400,60" onclick="buttonPress()"/>
+		</map>
+		<map name="portal">
+			<area shape="circle" id="portalmap" coords="400,400,330" onclick="travel()"/>
+		</map>
+		<map name="reset">
+			<area shape="circle" coords="40,40,40" onclick="reset()"/>
+		</map>
+	</body>
+</html>

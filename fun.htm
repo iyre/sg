@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="Miles Miller"/>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href="sg.ico"/>
+		<title>Stargate: Fun</title>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<script type="text/javascript">
+			function calculateAge (form)
+			{
+			    starGate = new Date("09/28/1994");
+			    birthDate = new Date(form.inputbox.value);
+			    var age = (starGate.getFullYear() - birthDate.getFullYear());
+			    if (starGate.getMonth() < birthDate.getMonth() || 
+			        starGate.getMonth() == birthDate.getMonth() && starGate.getDate() < birthDate.getDate())
+			    {
+			        age--;
+		   		}
+	    	if (age < 1)
+	    		alert ("You weren't born yet!");
+	    	else
+	    		alert ("You were " + age + " years old!");
+    		}
+		</script>
+	</head>
+	<body>
+		<p style="text-align: center">
+			<img src="images\earth.png" width="50" height="50" alt="Home" usemap="#home">
+		</p>		
+		<map name="home">
+			<area shape="rect" coords="0, 0, 50, 50" href="home.htm"/>
+		</map>
+		<table>
+			<tr>
+				<th style="font-size: xx-large; color: #00ccff" colspan="2">STARGATE</th>
+			</tr>
+			<tr>
+				<th style="font-size: large; color: #80e6ff" colspan="2">Fun</th>
+			</tr>
+			<tr>
+				<h4 style="text-align: center">
+					<a href="premise.htm">Premise</a> &nbsp;  | &nbsp;
+					<a href="television.htm">Television</a> &nbsp;  | &nbsp;
+					<a href="facts.htm">Facts</a>
+				</h4>
+			</tr>
+			<tr>
+				<th style="font-size: medium" colspan="2">
+					</br>
+					How old were you when Daniel Jackson first stepped through the Stargate?
+				</th>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<form name="howOld" action="" method="get">
+						Enter date of birth (mm/dd/yyyy): </br>
+						<input type="text" name="inputbox" value="">
+						<input type="button" name="button" value="Submit" onClick="calculateAge(this.form)">
+					</form>
+				</td>
+			</tr>
+		</table>
+		<p class="pri" style="font-size:large; text-align:center;"><a class="pri" href="start.htm">>>> Dial! <<<</a></p>
+	</body>
+</html>

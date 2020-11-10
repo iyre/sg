@@ -1,0 +1,16 @@
+body		{color: white;
+			font-family: monospace, Arial, Verdana;
+			font-size: 11pt;
+			background-color: black;} 			 
+table		{width: 70%;
+			margin-left:auto;
+			margin-right:auto;}
+#des p 		{font-size:smaller;
+			text-align:left;}
+p 			{color: white;
+			text-align: center;
+			vertical-align: middle;}
+.pri		{text-align: right;
+			color: #999966; font-weight: bold;}					
+a			{color: orange; text-decoration: none;}			 
+a:hover		{color: white;}
